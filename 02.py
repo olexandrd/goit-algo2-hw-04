@@ -12,14 +12,17 @@ class LongestCommonWord(Trie):
         for i, string in enumerate(strings):
             self.put(string, i)
 
-        longest_common_word = ""
-        current_preffix = ""
-        trie_size = self.size
-        # for string in strings: # Dont need to iterate over all strings because finding common prefix, it must be included in all strings
-        for i in strings[0]:  # Iterate over the first element
-            current_preffix += i
-            if len(self.keys_with_prefix(current_preffix)) == trie_size:
-                longest_common_word = current_preffix
+        longest_common_word = strings[0]
+        for string in strings[1:]:
+            current_prefix = ""
+            for i in range(min(len(longest_common_word), len(string))):
+                if longest_common_word[i] == string[i]:
+                    current_prefix += longest_common_word[i]
+                else:
+                    break
+            longest_common_word = current_prefix
+            if not longest_common_word:
+                break
 
         return longest_common_word
 
